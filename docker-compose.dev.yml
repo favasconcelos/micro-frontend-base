@@ -1,0 +1,67 @@
+version: "3.7"
+
+services:
+  micro-frontend-libraries:
+    container_name: micro-frontend-libraries
+    build:
+      context: .
+      dockerfile: micro-frontend.dev.Dockerfile
+      args:
+        - PROJECT_FOLDER_ARG=libraries
+    volumes:
+      - ./libraries/src:/app/src
+      - "/app/node_modules"
+    networks:
+      - local-network
+    environment:
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
+
+  micro-frontend-materials:
+    container_name: micro-frontend-materials
+    build:
+      context: .
+      dockerfile: micro-frontend.dev.Dockerfile
+      args:
+        - PROJECT_FOLDER_ARG=materials
+    volumes:
+      - ./materials/src:/app/src
+      - "/app/node_modules"
+    networks:
+      - local-network
+    environment:
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
+
+  micro-frontend-container:
+    container_name: micro-frontend-container
+    build:
+      context: .
+      dockerfile: micro-frontend.dev.Dockerfile
+      args:
+        - PROJECT_FOLDER_ARG=container
+    volumes:
+      - ./container/src:/app/src
+      - "/app/node_modules"
+    networks:
+      - local-network
+    environment:
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
+
+  micro-frontend-nginx:
+    container_name: micro-frontend-nginx
+    build: nginx
+    volumes:
+      - ./nginx/assets:/var/www
+    ports:
+      - "8888:80"
+    networks:
+      - local-network
+    depends_on:
+      - micro-frontend-libraries
+      - micro-frontend-materials
+      - micro-frontend-container
+
+networks:
+  local-network:

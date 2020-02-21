@@ -1,0 +1,12 @@
+[submodule "container"]
+	path = container
+	url = ./container
+	branch = master
+[submodule "libraries"]
+	path = libraries
+	url = ./libraries
+	branch = master
+[submodule "materials"]
+	path = materials
+	url = ./materials
+	branch = master

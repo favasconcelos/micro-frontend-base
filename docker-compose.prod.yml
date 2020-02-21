@@ -1,0 +1,55 @@
+version: "3.7"
+
+services:
+  micro-frontend-libraries:
+    container_name: micro-frontend-libraries
+    build:
+      context: .
+      dockerfile: micro-frontend.Dockerfile
+      args:
+        - PROJECT_FOLDER_ARG=libraries
+    networks:
+      - local-network
+    environment:
+      - NODE_ENV=production
+
+  micro-frontend-materials:
+    container_name: micro-frontend-materials
+    build:
+      context: .
+      dockerfile: micro-frontend.Dockerfile
+      args:
+        - PROJECT_FOLDER_ARG=materials
+    networks:
+      - local-network
+    environment:
+      - NODE_ENV=production
+
+  micro-frontend-container:
+    container_name: micro-frontend-container
+    build:
+      context: .
+      dockerfile: micro-frontend.Dockerfile
+      args:
+        - PROJECT_FOLDER_ARG=container
+    networks:
+      - local-network
+    environment:
+      - NODE_ENV=production
+
+  micro-frontend-nginx:
+    container_name: micro-frontend-nginx
+    build: nginx
+    volumes:
+      - ./nginx/assets:/var/www
+    ports:
+      - "8888:80"
+    networks:
+      - local-network
+    depends_on:
+      - micro-frontend-libraries
+      - micro-frontend-materials
+      - micro-frontend-container
+
+networks:
+  local-network:
