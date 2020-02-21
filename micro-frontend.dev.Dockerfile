@@ -11,8 +11,12 @@ COPY $PROJECT_FOLDER_ARG .
 RUN yarn build
 
 # serve stage
-FROM nginx:1.13.9-alpine
+FROM node:10.15.3-alpine
+
 RUN yarn global add serve
+
 WORKDIR /app
 COPY --from=builder /app/build .
-CMD ["serve", "-p", "80", "-s", "."]
+
+EXPOSE 80
+CMD ["serve", "--cors", "-p", "80", "-s", "."]
