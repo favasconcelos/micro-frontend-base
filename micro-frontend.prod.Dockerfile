@@ -1,5 +1,5 @@
 # build stage
-FROM node:10.15.3-alpine as builder
+FROM node:10.19.0-alpine as builder
 
 ARG PROJECT_FOLDER_ARG
 

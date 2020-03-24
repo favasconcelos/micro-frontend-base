@@ -1,5 +1,5 @@
 # build stage
-FROM node:10.15.3-alpine as builder
+FROM node:10.19.0-alpine as builder
 
 ARG PROJECT_FOLDER_ARG
 
@@ -11,7 +11,7 @@ COPY $PROJECT_FOLDER_ARG .
 RUN yarn build
 
 # serve stage
-FROM node:10.15.3-alpine
+FROM node:10.19.0-alpine
 
 RUN yarn global add serve
 
